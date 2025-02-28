@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriConnect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        input {
+            margin: 10px;
+            padding: 5px;
+            width: 200px;
+        }
+        .cart {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            width: 80%;
+            margin: 20px auto;
+        }
+        .cart ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .cart li {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .payment-options {
+            margin-top: 20px;
+        }
+        .payment-options input {
+            margin: 10px;
+        }
+        .address-input {
+            margin-top: 20px;
+        }
+	body{
+		 background-image: url('agri.JPG');
+		 background-size: cover;            
+                 background-position: center center;             
+                 background-repeat: no-repeat;
+			}
+	.content {
+            position: relative;
+            z-index: 1; /* Places the content above the blurred background */
+            color: white;
+            padding: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="content">
+    <h1>AgriConnect</h1>
+    <p>Connecting Farmers Directly with Consumers</p>
+    
+    <input type="file" id="fileInput" accept=".csv">
+    <br>
+    <input type="text" id="searchInput" placeholder="Search for products..." oninput="filterTable()">
+    
+    <table id="dataTable">
+         <thead>
+            <tr>
+           <th><span style="color: black;">Select</span></th>
+                <th><span style="color: black;">Product Name</span></th>
+                <th><span style="color: black;">Farmer Name</span></th>
+                <th><span style="color: black;">Location</span></th>
+                <th><span style="color: black;">Price</span></th>            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="cart">
+        <h2>Your Cart</h2>
+        <ul id="cartList"></ul>
+        <p>Total Price: <span id="totalPrice">0</span></p>
+    </div>
+
+    <!-- Address Input -->
+    <div class="address-input">
+        <h3>Enter Your Address</h3>
+        <input type="text" id="address" placeholder="Enter your address" />
+    </div>
+
+    <!-- Payment Options -->
+    <div class="payment-options">
+        <h3>Select Payment Method</h3>
+        <label>
+            <input type="radio" name="payment" value="Credit Card"> Credit Card
+        </label><br>
+        <label>
+            <input type="radio" name="payment" value="PayPal"> PayPal
+        </label><br>
+        <label>
+            <input type="radio" name="payment" value="Cash on Delivery"> Cash on Delivery
+        </label><br>
+    </div>
+
+    <!-- Pay Button -->
+    <button id="payButton" onclick="processPayment()">Pay Now</button>
+
+    <script>
+        let cart = [];
+
+        // Read and display the CSV
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const rows = e.target.result.split('\n').map(row => row.split(','));
+                    populateTable(rows);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Populate the table with CSV data
+        function populateTable(data) {
+            const tableBody = document.querySelector('#dataTable tbody');
+            tableBody.innerHTML = ''; // Clear previous data
+            data.forEach((row, index) => {
+                if (index === 0) return; // Skip header
+                const tr = document.createElement('tr');
+                
+                // Create the "Select" checkbox
+                const tdSelect = document.createElement('td');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.addEventListener('change', () => toggleCart(row, checkbox));
+                tdSelect.appendChild(checkbox);
+                
+                // Append data cells
+                row.forEach((cell, i) => {
+                    const td = document.createElement('td');
+                    td.textContent = cell.trim();
+                    tr.appendChild(td);
+                });
+                tr.insertBefore(tdSelect, tr.firstChild);
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Toggle the cart and update total price
+        function toggleCart(row, checkbox) {
+            const product = {
+                name: row[0].trim(),
+                farmer: row[1].trim(),
+                location: row[2].trim(),
+                price: parseFloat(row[3].trim())
+            };
+            if (checkbox.checked) {
+                cart.push(product);
+            } else {
+                cart = cart.filter(item => item.name !== product.name);
+            }
+            updateCart();
+        }
+
+        // Update the cart and calculate the total price
+        function updateCart() {
+            const cartList = document.getElementById('cartList');
+            const totalPriceElement = document.getElementById('totalPrice');
+            cartList.innerHTML = ''; // Clear previous cart items
+            let totalPrice = 0;
+            
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - ${item.farmer} - ${item.location} - $${item.price.toFixed(2)}`;
+                cartList.appendChild(li);
+                totalPrice += item.price;
+            });
+            totalPriceElement.textContent = totalPrice.toFixed(2);
+        }
+
+        // Filter table based on search input
+        function filterTable() {
+            const filter = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#dataTable tbody tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const match = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(filter));
+                row.style.display = match ? '' : 'none';
+            });
+        }
+
+        // Handle payment processing
+        function processPayment() {
+            const address = document.getElementById('address').value;
+            const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
+            const totalPrice = document.getElementById('totalPrice').textContent;
+
+            if (!address || !paymentMethod) {
+                alert('Please provide your address and select a payment method.');
+                return;
+            }
+
+            alert(`Payment of $${totalPrice} successful!\n\nAddress: ${address}\nPayment Method: ${paymentMethod}`);
+            // Here you could add more logic to handle payment transactions
+        }
+    </script>
+</body>
+</html>
