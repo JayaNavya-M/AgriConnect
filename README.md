@@ -44,7 +44,7 @@ git clone https://github.com/JayaNavya-M/AgriConnect.git
 
 Example:
 
-![Home Page](screenshot1.png)
+![Home Page](Sample Output.jpeg)
 
 ---
 
