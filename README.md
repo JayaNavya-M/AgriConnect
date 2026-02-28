@@ -35,7 +35,7 @@ git clone https://github.com/JayaNavya-M/AgriConnect.git
 
 2. Open the project folder.
 
-3. Run the project by opening **index.html** in a web browser.
+3. Run the project by opening **agri1.html** in a web browser.
 
 
 ---
