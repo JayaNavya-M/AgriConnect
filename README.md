@@ -37,14 +37,6 @@ git clone https://github.com/JayaNavya-M/AgriConnect.git
 
 3. Run the project by opening **index.html** in a web browser.
 
----
-
-## 📷 Output
-(Add screenshots of your project here)
-
-Example:
-
-![Home Page](Sample Output.jpeg)
 
 ---
 
