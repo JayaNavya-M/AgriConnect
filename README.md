@@ -1,24 +1,62 @@
-🌾 AgriConnect – E-commerce Platform for Farmers
-📌 Overview
+# 🌾 AgriConnect – E-commerce Platform for Farmers
 
-AgriConnect is a web-based platform designed to help farmers sell their agricultural products directly to consumers. The platform removes intermediaries and provides a simple interface for browsing and purchasing farm products.
+## 📌 Overview
+AgriConnect is a simple web-based platform that connects farmers directly with consumers.  
+The platform allows users to browse agricultural products, add them to a cart, and simulate a purchase process.
 
-This project focuses on creating a responsive and user-friendly e-commerce interface using core web technologies.
-🚀 Features
+This project was built to demonstrate basic web development using HTML, CSS, and JavaScript.
 
-Product listing for agricultural items
+---
 
-Simple and responsive user interface
+## 🚀 Features
+- Upload product data using a CSV file
+- Search and filter products
+- Select products and add them to a cart
+- Automatic total price calculation
+- Address input for delivery
+- Payment method selection (Credit Card, PayPal, Cash on Delivery)
+- Responsive and user-friendly interface
 
-Product browsing functionality
+---
 
-Add-to-cart and purchase flow (basic UI implementation)
+## 🛠 Technologies Used
+- HTML
+- CSS
+- JavaScript
 
-Farmer-to-consumer direct selling concept
-🛠️ Technologies Used
+---
 
-HTML – Structure of the web pages
+## 📂 How to Run the Project
+1. Clone the repository
 
-CSS – Styling and layout
+```bash
+git clone https://github.com/JayaNavya-M/AgriConnect.git
+```
 
-JavaScript – Interactivity and functionality
+2. Open the project folder.
+
+3. Run the project by opening **index.html** in a web browser.
+
+---
+
+## 📷 Output
+(Add screenshots of your project here)
+
+Example:
+
+![Home Page](screenshot1.png)
+
+---
+
+## 🎯 Future Improvements
+- Add backend and database integration
+- Implement secure authentication for users
+- Add real payment gateway integration
+- Create a dashboard for farmers to manage products
+
+---
+
+## 👩‍💻 Author
+**Jaya Navya M**
+
+GitHub: https://github.com/JayaNavya-M
